@@ -1,0 +1,22 @@
+{
+    "name": "erik-nystrom/php-i18n-extr",
+    "description": "Extract translation tokens from PHP/HTML/JS files",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Erik Nystrom",
+            "email": "erik.s.nystrom@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "php": ">=5.3.0",
+        "erik-nystrom/php-clio": "dev-master",
+        "mck89/peast": "^1.10@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "I18nExtractor": "src/"
+        }
+    }
+}

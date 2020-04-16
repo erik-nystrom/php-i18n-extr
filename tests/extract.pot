@@ -1,0 +1,36 @@
+#: /data/www/php-i18n-extr/tests/sample-files/sample.html:6, /data/www/php-i18n-extr/tests/sample-files/sample.html:11 
+msgid "This is a page title"
+msgstr "This is a page title"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.html:7, /data/www/php-i18n-extr/tests/sample-files/sample.html:12, /data/www/php-i18n-extr/tests/sample-files/sample.html:14, /data/www/php-i18n-extr/tests/sample-files/sample.js:3 
+msgid "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate veniam recusandae culpa id, a iure fuga fugiat praesentium pariatur iusto nulla aliquam debitis nesciunt cum atque quam! Nihil, ducimus enim?"
+msgstr "Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate veniam recusandae culpa id, a iure fuga fugiat praesentium pariatur iusto nulla aliquam debitis nesciunt cum atque quam! Nihil, ducimus enim?"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.html:13 
+msgid "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum tenetur, mollitia non debitis culpa perspiciatis repellat officia quam est voluptatibus vero ipsum veritatis incidunt quisquam accusamus saepe? Illo, incidunt excepturi."
+msgstr "Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum tenetur, mollitia non debitis culpa perspiciatis repellat officia quam est voluptatibus vero ipsum veritatis incidunt quisquam accusamus saepe? Illo, incidunt excepturi."
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.html:15 
+msgid "some image alt text"
+msgstr "some image alt text"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.js:1 
+msgid "This is some text."
+msgstr "This is some text."
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.js:2, /data/www/php-i18n-extr/tests/sample-files/sample.js:6 
+msgid "this is also some text"
+msgstr "this is also some text"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.php:7, /data/www/php-i18n-extr/tests/sample-files/sample.php:10 
+msgid "this is some sample text"
+msgstr "this is some sample text"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.php:8 
+msgid "this is some more sample text"
+msgstr "this is some more sample text"
+
+#: /data/www/php-i18n-extr/tests/sample-files/sample.php:9 
+msgid "this is yet some more sample text"
+msgstr "this is yet some more sample text"
+
