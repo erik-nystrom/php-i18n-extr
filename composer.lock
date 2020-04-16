@@ -4,44 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "41b819e450aed3a59dae5f9dee657954",
+    "content-hash": "8e526a43394500ea47a51a842f8a33df",
     "packages": [
-        {
-            "name": "erik-nystrom/php-clio",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/erik-nystrom/php-clio.git",
-                "reference": "641fd08b059d27df8ba3613a16c91e0f7226ab6d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/erik-nystrom/php-clio/zipball/641fd08b059d27df8ba3613a16c91e0f7226ab6d",
-                "reference": "641fd08b059d27df8ba3613a16c91e0f7226ab6d",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "PHPClio": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Erik Nystrom",
-                    "email": "erik.s.nystrom@gmail.com"
-                }
-            ],
-            "description": "A Super simple PHP Command Line IO class",
-            "time": "2020-04-15T23:50:29+00:00"
-        },
         {
             "name": "mck89/peast",
             "version": "dev-master",
@@ -92,8 +56,7 @@
     "aliases": [],
     "minimum-stability": "dev",
     "stability-flags": {
-        "mck89/peast": 20,
-        "erik-nystrom/php-clio": 20
+        "mck89/peast": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,

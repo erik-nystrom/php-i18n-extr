@@ -1,10 +1,10 @@
 # PHP i18n Extraction Utility
 
-Extract translation tokens from .php, .html, and .js files.
+Extract translation tokens from .php, .html, and .js files, and export in .pot file format.
 
 ## Why did I make this?
 
-I wanted to roll my own translation system while still keeping things similar to PHP's gettext implementation. Instead of `_()` I opted to use `__()` for my translation method, but you can use whatever you'd like. 
+I wanted to roll my own translation system while still keeping things similar to PHP's gettext implementation.
 
 This utility will also extract from .js files, which is an added bonus.
 
@@ -19,7 +19,7 @@ Alias/Import into your script, create an instance of the Extractor, add some fil
 ```
 use I18nExtractor\Extractor as Extractor;
 
-$ex = new Extractor('__');
+$ex = new Extractor();
 
 $ex->add("/path/to/your/website");
 $ex->add("/path/to/another/script.php");

@@ -189,7 +189,7 @@ class Extractor {
                 case 'php':
                 case 'html':
 
-                    $strings = Extractor::tokenizePHP($file, $this->method);
+                    $strings = Extractor::tokenizePHP(realpath($file), $this->method);
 
                     foreach($strings as $string) {
                         if(array_key_exists($string['definition'], $this->strings)) {
@@ -202,7 +202,7 @@ class Extractor {
                 break;
                 case 'js':
 
-                    $strings = Extractor::tokenizeJS($file, $this->method);
+                    $strings = Extractor::tokenizeJS(realpath($file), $this->method);
 
                     foreach($strings as $string) {
                         if(array_key_exists($string['definition'], $this->strings)) {
