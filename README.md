@@ -32,5 +32,7 @@ file_put_contents('default.pot', $ex->stringsAsPOT());
 
 By default the Extractor class will look for `_()`, but you can change this if you'd like.
 
+The resulting file should load fine in something like [poedit](https://poedit.net/).
+
 ## License
 [MIT](https://choosealicense.com/licenses/mit/)
