@@ -26,13 +26,13 @@ final class ExtractionText extends TestCase
         $this->assertArrayHasKey('This is some text.', $strings);
         $this->assertArrayHasKey('this is also some text', $strings);
         
-        $this->assertArrayNotHasKey('Sample text that should be ignored', $strings);
+        $this->assertArrayNotHasKey('Sample text that should be ignored, unless checking for __', $strings);
 
     }
 
     public function testKeysExtractedDoubleUnderscore() {
 
-        $ex = new Extractor('__');
+        $ex = new Extractor('__', ['php']);
         $ex->add(__DIR__ . '/sample-files/sample.html');
         $ex->add(__DIR__ . '/sample-files/sample.php');
         $ex->add(__DIR__ . '/sample-files/sample.js');
@@ -51,7 +51,7 @@ final class ExtractionText extends TestCase
         $this->assertArrayNotHasKey('This is some text.', $strings);
         $this->assertArrayNotHasKey('this is also some text', $strings);
         
-        $this->assertArrayHasKey('Sample text that should be ignored', $strings);
+        $this->assertArrayHasKey('Sample text that should be ignored, unless checking for __', $strings);
 
     }
 

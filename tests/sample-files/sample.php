@@ -12,6 +12,6 @@ $text3 = _('this is some sample text');
 /**
  *  Anything else will *not* be caught
  */ 
-$text4 = __('Sample text that should be ignored');
+$text4 = __('Sample text that should be ignored, unless checking for __');
 
 ?>
