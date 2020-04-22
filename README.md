@@ -30,7 +30,9 @@ $ex->tokenize();
 file_put_contents('default.pot', $ex->stringsAsPOT());
 ```
 
-By default the Extractor class will look for `_()`, but you can change this if you'd like.
+By default the Extractor class will look for `_()`, but you can change this if you'd like. 
+
+It will also search for .php, .html (parsed as .php), and .js files by default. You can add any other extensions you'd like, as long as they can be successfully parsed as PHP or JavaScript.
 
 The resulting file should load fine in something like [poedit](https://poedit.net/).
 
