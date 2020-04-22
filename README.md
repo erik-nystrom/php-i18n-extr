@@ -6,7 +6,7 @@ Extract translation tokens from .php, .html, and .js files, and export in .pot f
 
 I wanted to roll my own translation system while still keeping things similar to PHP's gettext implementation.
 
-This utility will also extract from .js files, which is an added bonus.
+This utility will also extract from .js files, as well as JS embedded in HTML files, which is an added bonus.
 
 ## Usage
 
