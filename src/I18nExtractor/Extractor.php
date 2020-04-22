@@ -19,20 +19,45 @@ class Extractor {
     /**
      * Tokenize and extract translation tokens from a PHP or HTML File
      * 
-     * @param $file the full path to the file
+     * @param $code PHP code to be parsed (such as file_get_contents('check.php'))
      * @param $method the method to search for
      * @return array an array of strings found
      */
-    public static function tokenizePHP($file, $method) {
+    public static function tokenizePHP($code, $method) {
 
         $found = [];
 
-        $tokens = token_get_all(file_get_contents($file));
+        $tokens = token_get_all($code);
 
         foreach($tokens as $i => $token) {
 
             if($i < 2) {
                 continue;
+            }
+
+            // check for JS inside any PHP/HTML
+            if(is_array($token) && array_key_exists(1, $token) && strpos($token[1], '<script') > -1) {
+                $doc = \DomDocument::loadHTML($token[1]);
+                $xpath = new \DOMXpath($doc);
+                $scripts = $xpath->query('//script[not(@src)]');
+                foreach($scripts as $script){
+                    $foundJS = Self::tokenizeJS($script->textContent, $method);
+                    foreach($foundJS as $tokenJS => $definitionsJS) {
+                        foreach($definitionsJS['locations'] as &$location) {
+                            // append the parent node's line number to the JS's line number
+                            $location += $token[2];
+                        }
+                        if(array_key_exists($tokenJS, $found)) {
+                            $found[$tokenJS]['locations']= array_merge($found[$key]['locations'], $definitionsJS['locations']);
+                        } else {
+                            $found[$tokenJS]= [
+                                'term' => $definitionsJS['term'],
+                                'definition' => $definitionsJS['definition'],
+                                'locations' => $definitionsJS['locations']
+                            ];
+                        }
+                    }
+                }
             }
 
             $secondprev = $tokens[$i - 2];
@@ -53,12 +78,12 @@ class Extractor {
                 }
 
                 if(array_key_exists($token[1], $found)) {
-                    $found[$token[1]]['locations'][]= $file . ':' . $token[2];
+                    $found[$token[1]]['locations'][]= $token[2];
                 } else {
                     $found[$token[1]]= [
                         'term' => $string,
                         'definition' => $string,
-                        'locations' => [$file . ':' . $token[2]]
+                        'locations' => [$token[2]]
                     ];
                 }
 
@@ -73,18 +98,18 @@ class Extractor {
     /**
      * Tokenize and extract translation tokens from a JavaScript File
      * 
-     * @param $file the full path to the file
+     * @param $code JavaScript code to be parsed (such as file_get_contents('check.js'))
      * @param $method the method to search for 
      * @return array an array of strings found
      */
-    public static function tokenizeJS($file, $method) {
+    public static function tokenizeJS($code, $method) {
 
         $found = [];
         $stop = false;
 
-        $ast = Peast::latest(file_get_contents($file), null)->parse();
+        $ast = Peast::latest($code, null)->parse();
         $traverser = new Traverser;
-        $traverser->addFunction(function($node) use ($method, &$stop, &$found, $file) {
+        $traverser->addFunction(function($node) use ($method, &$stop, &$found) {
             if($node->getType() == 'Identifier' && $node->getName() == $method) {
                 $stop = true;
                 return true;
@@ -94,12 +119,12 @@ class Extractor {
                 $stop = false;
                 
                 if(array_key_exists($node->getValue(), $found)) {
-                    $found[$node->getValue()]['locations'][]= $file . ':' . $node->getLocation()->getStart()->getLine();
+                    $found[$node->getValue()]['locations'][]= $node->getLocation()->getStart()->getLine();
                 } else {
                     $found[$node->getValue()]= [
                         'term' => $node->getValue(),
                         'definition' => $node->getValue(),
-                        'locations' => [$file . ':' .$node->getLocation()->getStart()->getLine()]
+                        'locations' => [$node->getLocation()->getStart()->getLine()]
                     ];
                 }
 
@@ -196,9 +221,12 @@ class Extractor {
             switch($this->extensions[$ext]) {
                 case 'php':
 
-                    $strings = Extractor::tokenizePHP(realpath($file), $this->method);
+                    $strings = Extractor::tokenizePHP(file_get_contents(realpath($file)), $this->method);
 
                     foreach($strings as $string) {
+                        foreach($string['locations'] as &$location) {
+                            $location = sprintf('%s:%d', realpath($file), $location);
+                        }
                         if(array_key_exists($string['definition'], $this->strings)) {
                             $this->strings[$string['definition']]['locations'] = array_merge($this->strings[$string['definition']]['locations'], $string['locations']);
                         } else {
@@ -209,9 +237,12 @@ class Extractor {
                 break;
                 case 'js':
 
-                    $strings = Extractor::tokenizeJS(realpath($file), $this->method);
+                    $strings = Extractor::tokenizeJS(file_get_contents(realpath($file)), $this->method);
 
                     foreach($strings as $string) {
+                        foreach($string['locations'] as &$location) {
+                            $location = sprintf('%s:%d', realpath($file), $location);
+                        }
                         if(array_key_exists($string['definition'], $this->strings)) {
                             $this->strings[$string['definition']]['locations'] = array_merge($this->strings[$string['definition']]['locations'], $string['locations']);
                         } else {
