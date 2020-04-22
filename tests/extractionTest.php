@@ -32,7 +32,7 @@ final class ExtractionText extends TestCase
 
     public function testKeysExtractedDoubleUnderscore() {
 
-        $ex = new Extractor('__', ['php']);
+        $ex = new Extractor('__');
         $ex->add(__DIR__ . '/sample-files/sample.html');
         $ex->add(__DIR__ . '/sample-files/sample.php');
         $ex->add(__DIR__ . '/sample-files/sample.js');
@@ -52,6 +52,81 @@ final class ExtractionText extends TestCase
         $this->assertArrayNotHasKey('this is also some text', $strings);
         
         $this->assertArrayHasKey('Sample text that should be ignored, unless checking for __', $strings);
+
+    }
+
+    public function testKeysExtractedPHPOnly() {
+
+        $ex = new Extractor('_', ['php' => 'php']);
+        $ex->add(__DIR__ . '/sample-files/sample.html');
+        $ex->add(__DIR__ . '/sample-files/sample.php');
+        $ex->add(__DIR__ . '/sample-files/sample.js');
+
+        $ex->tokenize();
+
+        $strings = $ex->getStrings();
+        
+        $this->assertArrayHasKey('this is some sample text', $strings);
+        $this->assertArrayHasKey('this is some more sample text', $strings);
+        $this->assertArrayHasKey('this is yet some more sample text', $strings);
+
+        $this->assertArrayNotHasKey('This is a page title', $strings);
+        $this->assertArrayNotHasKey('Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate veniam recusandae culpa id, a iure fuga fugiat praesentium pariatur iusto nulla aliquam debitis nesciunt cum atque quam! Nihil, ducimus enim?', $strings);
+        $this->assertArrayNotHasKey('Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum tenetur, mollitia non debitis culpa perspiciatis repellat officia quam est voluptatibus vero ipsum veritatis incidunt quisquam accusamus saepe? Illo, incidunt excepturi.', $strings);
+        $this->assertArrayNotHasKey('some image alt text', $strings);
+        $this->assertArrayNotHasKey('This is some text.', $strings);
+        $this->assertArrayNotHasKey('this is also some text', $strings);        
+        $this->assertArrayNotHasKey('Sample text that should be ignored, unless checking for __', $strings);
+
+    }
+
+    public function testKeysExtractedJSOnly() {
+
+        $ex = new Extractor('_', ['js' => 'js']);
+        $ex->add(__DIR__ . '/sample-files/sample.html');
+        $ex->add(__DIR__ . '/sample-files/sample.php');
+        $ex->add(__DIR__ . '/sample-files/sample.js');
+
+        $ex->tokenize();
+
+        $strings = $ex->getStrings();
+
+        $this->assertArrayHasKey('This is some text.', $strings);
+        $this->assertArrayHasKey('this is also some text', $strings);        
+        $this->assertArrayHasKey('Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate veniam recusandae culpa id, a iure fuga fugiat praesentium pariatur iusto nulla aliquam debitis nesciunt cum atque quam! Nihil, ducimus enim?', $strings);
+        
+        $this->assertArrayNotHasKey('this is some sample text', $strings);
+        $this->assertArrayNotHasKey('this is some more sample text', $strings);
+        $this->assertArrayNotHasKey('this is yet some more sample text', $strings);
+        $this->assertArrayNotHasKey('This is a page title', $strings);
+        $this->assertArrayNotHasKey('Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum tenetur, mollitia non debitis culpa perspiciatis repellat officia quam est voluptatibus vero ipsum veritatis incidunt quisquam accusamus saepe? Illo, incidunt excepturi.', $strings);
+        $this->assertArrayNotHasKey('some image alt text', $strings);
+        $this->assertArrayNotHasKey('Sample text that should be ignored, unless checking for __', $strings);
+
+    }
+
+    public function testKeysExtractedHTMLOnly() {
+
+        $ex = new Extractor('_', ['html' => 'php']);
+        $ex->add(__DIR__ . '/sample-files/sample.html');
+        $ex->add(__DIR__ . '/sample-files/sample.php');
+        $ex->add(__DIR__ . '/sample-files/sample.js');
+
+        $ex->tokenize();
+
+        $strings = $ex->getStrings();
+
+        $this->assertArrayHasKey('This is a page title', $strings);
+        $this->assertArrayHasKey('Lorem ipsum dolor sit amet consectetur adipisicing elit. Cupiditate veniam recusandae culpa id, a iure fuga fugiat praesentium pariatur iusto nulla aliquam debitis nesciunt cum atque quam! Nihil, ducimus enim?', $strings);
+        $this->assertArrayHasKey('Lorem, ipsum dolor sit amet consectetur adipisicing elit. Eum tenetur, mollitia non debitis culpa perspiciatis repellat officia quam est voluptatibus vero ipsum veritatis incidunt quisquam accusamus saepe? Illo, incidunt excepturi.', $strings);
+        $this->assertArrayHasKey('some image alt text', $strings);
+
+        $this->assertArrayNotHasKey('This is some text.', $strings);
+        $this->assertArrayNotHasKey('this is also some text', $strings);        
+        $this->assertArrayNotHasKey('this is some sample text', $strings);
+        $this->assertArrayNotHasKey('this is some more sample text', $strings);
+        $this->assertArrayNotHasKey('this is yet some more sample text', $strings);
+        $this->assertArrayNotHasKey('Sample text that should be ignored, unless checking for __', $strings);
 
     }
 

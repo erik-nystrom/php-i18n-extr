@@ -116,8 +116,9 @@ class Extractor {
      * Constructor
      * 
      * @param $method The method to search for during tokenization (defaults to gettext's _)
+     * @param $extensions A list of extensions to check, and how to parse them ['extension' => '(php|js)']
      */
-    public function __construct($method = '_', $extensions = ['php', 'html', 'js']) {
+    public function __construct($method = '_', $extensions = ['php' => 'php', 'html' => 'php', 'js' => 'js']) {
         $this->method = $method;
         $this->extensions = $extensions;
     }
@@ -146,7 +147,7 @@ class Extractor {
             } elseif(is_file($file)) {
                 $ext = explode('.', $file);
                 $ext = array_pop($ext);
-                if(in_array($ext, $this->extensions)){
+                if(in_array($ext, array_keys($this->extensions))){
                     $files[]= $file;
                 }
             }
@@ -186,10 +187,14 @@ class Extractor {
 
             $ext = explode('.', $file);
             $ext = array_pop($ext);
+            $ext = strtolower($ext);
 
-            switch(strtolower($ext)) {
+            if(!array_key_exists($ext, $this->extensions)) {
+                continue;
+            } 
+
+            switch($this->extensions[$ext]) {
                 case 'php':
-                case 'html':
 
                     $strings = Extractor::tokenizePHP(realpath($file), $this->method);
 

@@ -1,6 +1,6 @@
 # PHP i18n Extraction Utility
 
-Extract translation tokens from .php, .html, and .js files, and export in .pot file format.
+Extract translation tokens from .php, .html, and .js files, and export in .pot file format. Also supports other extensions, so long as they can be parsed as PHP or JavaScript.
 
 ## Why did I make this?
 
