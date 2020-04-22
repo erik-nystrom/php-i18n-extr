@@ -14,6 +14,7 @@ class Extractor {
     public $files = [];
     private $strings = [];
     private $method = false;
+    private $extensions = [];
 
     /**
      * Tokenize and extract translation tokens from a PHP or HTML File
@@ -116,12 +117,13 @@ class Extractor {
      * 
      * @param $method The method to search for during tokenization (defaults to gettext's _)
      */
-    public function __construct($method = '_') {
+    public function __construct($method = '_', $extensions = ['php', 'html', 'js']) {
         $this->method = $method;
+        $this->extensions = $extensions;
     }
 
     /**
-     * Scan a directory for .php, .html, and .js files
+     * Recursively scan a directory for .php, .html, and .js files
      * 
      * @param $path the path to search
      * @return array $files an array of files found
@@ -144,7 +146,7 @@ class Extractor {
             } elseif(is_file($file)) {
                 $ext = explode('.', $file);
                 $ext = array_pop($ext);
-                if($ext == 'php' || $ext == 'html' || $ext == 'js'){
+                if(in_array($ext, $this->extensions)){
                     $files[]= $file;
                 }
             }
@@ -170,7 +172,7 @@ class Extractor {
             $this->files = array_merge($this->files, [$path]);
             return true;
         } else {
-            throw new Exception("{$path} is not a valid file or directory");
+            throw new \Exception("{$path} is not a valid file or directory");
         }
 
     }
@@ -220,11 +222,18 @@ class Extractor {
     }
 
     /**
+     * Return the extracted strings, with all 
+     */
+    public function getStrings() {
+        return $this->strings;
+    }
+
+    /**
      * Format the strings found as a valid .pot file
      * 
      * @return string valid .pot file contents
      */
-    public function stringsAsPOT() {
+    public function getStringsAsPOT() {
 
         ob_start();
 
